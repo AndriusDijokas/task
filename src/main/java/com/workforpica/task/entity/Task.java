@@ -1,8 +1,10 @@
 package com.workforpica.task.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigInteger;
 
+@Entity
 public class Task {
 
     @Id
