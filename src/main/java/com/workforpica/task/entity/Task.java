@@ -1,22 +1,62 @@
 package com.workforpica.task.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigInteger;
 
 @Entity
+@Table(name = "TASK")
 public class Task {
 
     @Id
-    BigInteger id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
     String text;
     boolean isDone;
 
-    public BigInteger getId() {
+
+    @ManyToOne
+    @JoinColumn(name="lobby_id", nullable = false)
+    private Lobby lobby;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable = false)
+    private Category category;
+
+    public Task() {}
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(int id) {
         this.id = id;
     }
 

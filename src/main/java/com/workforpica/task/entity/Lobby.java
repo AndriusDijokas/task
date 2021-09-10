@@ -7,25 +7,22 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="USER")
-public class User {
+@Table(name = "LOBBY")
+public class Lobby {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int Id;
-    String email;
+    int id;
     String name;
-    String lastName;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<UserLobby> userLobbies = new ArrayList<>();
+    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> categories = new ArrayList<>();
 
-
-    public User() {
-    }
+    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<UserLobby> userLobbies = new ArrayList<>();
 
     public List<Task> getTasks() {
         return tasks;
@@ -33,6 +30,14 @@ public class User {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<UserLobby> getUserLobbies() {
@@ -44,19 +49,11 @@ public class User {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.id = id;
     }
 
     public String getName() {
@@ -65,13 +62,5 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 }
