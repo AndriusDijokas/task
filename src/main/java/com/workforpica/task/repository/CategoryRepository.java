@@ -4,6 +4,7 @@ import com.workforpica.task.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    Category getById(Integer id);
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+    Category getById(Long id);
+    boolean existsById(Long id);
 }

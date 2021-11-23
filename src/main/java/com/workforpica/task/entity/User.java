@@ -1,26 +1,41 @@
 package com.workforpica.task.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.math.BigInteger;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
-@Table(name="USER")
+@Table(name="USER",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int Id;
+    Long Id;
+    @Email
+    @Column(nullable = false)
     String email;
     String name;
     String lastName;
+    @JsonIgnore
+    private String password;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserLobby> userLobbies = new ArrayList<>();
 
 
@@ -43,11 +58,11 @@ public class User {
         this.userLobbies = userLobbies;
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 
@@ -74,4 +89,30 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public AuthProvider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(AuthProvider provider) {
+        this.provider = provider;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+
 }

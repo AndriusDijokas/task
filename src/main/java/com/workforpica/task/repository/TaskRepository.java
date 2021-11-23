@@ -9,5 +9,6 @@ import java.math.BigInteger;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    Task getById(Integer id);
+    Task getById(Long id);
+    boolean existsById(Long id);
 }

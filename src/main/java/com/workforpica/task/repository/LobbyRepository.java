@@ -8,5 +8,6 @@ import java.math.BigInteger;
 
 @Repository
 public interface LobbyRepository extends JpaRepository<Lobby, Integer> {
-    Lobby getById(Integer id);
+    Lobby getById(Long id);
+    boolean existsById(Long id);
 }

@@ -12,16 +12,16 @@ public class Lobby {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
+    Long id;
     String name;
 
-    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL)
     private List<Category> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "lobby",cascade = CascadeType.ALL)
     List<UserLobby> userLobbies = new ArrayList<>();
 
     public List<Task> getTasks() {
@@ -48,11 +48,11 @@ public class Lobby {
         this.userLobbies = userLobbies;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
