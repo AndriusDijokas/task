@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 //ToDo: fix deprecated stuff,update JWT dependencies
 @Service
@@ -36,28 +37,31 @@ public class TokenProvider {
     }
 
     public Long getUserIdFromToken(String token) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(appProperties.getAuth().getTokenSecret())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
 
         return Long.parseLong(claims.getSubject());
     }
 
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String authToken, HttpServletRequest httpServletRequest) throws ExpiredJwtException {
         try {
-            Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
+            Jwts.parserBuilder()
+                    .setSigningKey(appProperties.getAuth().getTokenSecret())
+                    .build()
+                    .parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException ex) {
-            log.error("Invalid JWT signature");
         } catch (MalformedJwtException ex) {
-            log.error("Invalid JWT token");
+            log.error("Invalid JWT token",ex.fillInStackTrace());
         } catch (ExpiredJwtException ex) {
-            log.error("Expired JWT token");
+            log.error("Expired JWT token",ex.fillInStackTrace());
+            httpServletRequest.setAttribute("custom-msg", "Expired JWT token");
         } catch (UnsupportedJwtException ex) {
-            log.error("Unsupported JWT token");
+            log.error("Unsupported JWT token",ex.fillInStackTrace());
         } catch (IllegalArgumentException ex) {
-            log.error("JWT claims string is empty.");
+            log.error("JWT claims string is empty.",ex.fillInStackTrace());
         }
         return false;
     }

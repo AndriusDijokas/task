@@ -6,7 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 
 
 @Entity
@@ -26,6 +28,9 @@ public class User {
     @JsonIgnore
     private String password;
 
+    private boolean isUsing2FA;
+    private String secret;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
@@ -40,6 +45,17 @@ public class User {
 
 
     public User() {
+        super();
+        this.secret = "Random secret";
+
+    }
+
+    public boolean isUsing2FA() {
+        return isUsing2FA;
+    }
+
+    public void setUsing2FA(boolean using2FA) {
+        isUsing2FA = using2FA;
     }
 
     public List<Task> getTasks() {

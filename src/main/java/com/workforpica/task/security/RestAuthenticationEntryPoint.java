@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
@@ -21,8 +22,14 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
-        log.error("Responding with unauthorized error. Message - {}", e.getMessage());
-        GenericResponse genericResponse = new GenericResponse(HttpStatus.UNAUTHORIZED.name(),e.getLocalizedMessage());
+
+        final String expiredToken = (String) httpServletRequest.getAttribute("custom-msg");
+        String message = e.getMessage();
+        if (expiredToken != null) message = expiredToken;
+
+        log.error("Responding with unauthorized error. Message - {}", message);
+
+        GenericResponse genericResponse = new GenericResponse(HttpStatus.UNAUTHORIZED.name(),message);
         sendResponse(httpServletResponse,genericResponse);
     }
 

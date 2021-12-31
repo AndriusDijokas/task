@@ -28,7 +28,7 @@ public class RestResponseEntityExceptionHandler {
                 ex.getConstraintViolations().stream().map(cv -> cv.getMessage()).collect(Collectors.toList()));
 
         log.warn("Resolved: {}",genericResponse.toString(),ex.fillInStackTrace());
-        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(genericResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value
@@ -40,7 +40,7 @@ public class RestResponseEntityExceptionHandler {
                 GenericResponse.responses.VALIDATION_ERROR.name(),
                 ex.getBindingResult().getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList()));
         log.warn("Resolved: {}",genericResponse.toString(),ex.fillInStackTrace());
-        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(genericResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value
@@ -52,7 +52,7 @@ public class RestResponseEntityExceptionHandler {
                 ex.getMessage());
 
         log.warn("Resolved: {}",genericResponse.toString(),ex.fillInStackTrace());
-        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(genericResponse, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -65,7 +65,7 @@ public class RestResponseEntityExceptionHandler {
                 ex.getMessage());
 
         log.warn("Resolved: {}",genericResponse.toString(),ex.fillInStackTrace());
-        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(genericResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value
@@ -77,7 +77,7 @@ public class RestResponseEntityExceptionHandler {
                 ex.getMessage());
 
         log.warn("Resolved: {}",genericResponse.toString(),ex.fillInStackTrace());
-        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(genericResponse, HttpStatus.UNAUTHORIZED);
     }
 
 

@@ -4,10 +4,8 @@ import com.workforpica.task.controller.payload.auth.AuthResponse;
 import com.workforpica.task.controller.payload.auth.LoginRequest;
 import com.workforpica.task.controller.payload.auth.SignUpRequest;
 import com.workforpica.task.controller.payload.lobby.GenericResponse;
-import com.workforpica.task.repository.UserRepository;
 import com.workforpica.task.security.TokenProvider;
 import com.workforpica.task.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,7 +48,6 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String token = tokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token));
     }
@@ -66,4 +63,5 @@ public class AuthController {
         return ResponseEntity.created(location)
                 .body(new GenericResponse(HttpStatus.CREATED.name(), "User was created"));
     }
+
 }
